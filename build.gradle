@@ -4,13 +4,24 @@ apply plugin: 'maven'
 group = 'com.artifex.mupdf'
 version = '1.16.1'
 
+task generateFonts(type: Exec) {
+    workingDir "$projectDir/libmupdf"
+    if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+        //commandLine 'cmd', '/c', 'mycommand'
+    } else {
+        commandLine 'sh', '-c', 'make generate'
+    }
+}
+
+build.dependsOn generateFonts
+
 buildscript {
 	repositories {
 		google()
 		jcenter()
 	}
 	dependencies {
-		classpath 'com.android.tools.build:gradle:3.5.0'
+		classpath 'com.android.tools.build:gradle:3.6.2'
 	}
 }
 
